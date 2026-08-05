@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/action-receipt.schema.json",
+  "title": "AGENTROPOLIS Social Action Receipt",
+  "type": "object",
+  "required": ["receipt_id", "platform", "account_id", "action", "actor", "decision", "policy_state", "timestamp"],
+  "properties": {
+    "receipt_id": {"type": "string"},
+    "platform": {"type": "string"},
+    "account_id": {"type": "string"},
+    "event_id": {"type": ["string", "null"]},
+    "action": {"type": "string"},
+    "actor": {"type": "string"},
+    "decision": {"enum": ["denied", "drafted", "approved", "executed", "failed", "cancelled"]},
+    "policy_state": {"type": "string"},
+    "approval_reference": {"type": ["string", "null"]},
+    "capability_handle": {"type": ["string", "null"]},
+    "output_reference": {"type": ["string", "null"]},
+    "risk_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "timestamp": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
