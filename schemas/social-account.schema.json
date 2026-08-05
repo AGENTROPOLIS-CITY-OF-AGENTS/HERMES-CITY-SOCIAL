@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/social-account.schema.json",
+  "title": "AGENTROPOLIS Social Account",
+  "type": "object",
+  "required": ["platform", "account_id", "connector_type", "permissions", "status"],
+  "properties": {
+    "platform": {"type": "string"},
+    "account_id": {"type": "string"},
+    "display_name": {"type": ["string", "null"]},
+    "connector_type": {"enum": ["native_api", "secure_browser", "social_ingest"]},
+    "permissions": {
+      "type": "object",
+      "required": ["observe", "analyze", "draft", "execute"],
+      "properties": {
+        "observe": {"type": "boolean"},
+        "analyze": {"type": "boolean"},
+        "draft": {"type": "boolean"},
+        "execute": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "status": {"enum": ["quarantined", "testing", "approved_read_only", "approved_draft", "approved_execute", "suspended"]},
+    "rate_limit_profile": {"type": ["string", "null"]},
+    "budget_profile": {"type": ["string", "null"]},
+    "credential_handle": {"type": ["string", "null"], "description": "Opaque capability handle only. Never a raw secret."}
+  },
+  "additionalProperties": false
+}
