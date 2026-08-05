@@ -1,0 +1,22 @@
+version: 1
+levels:
+  low:
+    range: [0, 24]
+    handling: allow_observe_and_analyze
+  moderate:
+    range: [25, 49]
+    handling: draft_only_with_review
+  high:
+    range: [50, 74]
+    handling: escalate_and_require_human_approval
+  critical:
+    range: [75, 100]
+    handling: block_execution_and_open_security_review
+signals:
+  credential_exposure: critical
+  private_data_leak: critical
+  impersonation: high
+  financial_promotion: high
+  legal_or_regulatory_claim: high
+  harassment_or_threat: high
+  ambiguous_context: moderate
