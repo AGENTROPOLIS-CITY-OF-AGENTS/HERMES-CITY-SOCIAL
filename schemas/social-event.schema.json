@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/social-event.schema.json",
+  "title": "AGENTROPOLIS Social Event",
+  "type": "object",
+  "required": ["event_id", "platform", "account_id", "event_type", "author", "content", "permissions", "provenance", "risk_score", "timestamp"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "platform": {"type": "string", "minLength": 1},
+    "account_id": {"type": "string", "minLength": 1},
+    "event_type": {"type": "string", "minLength": 1},
+    "author": {"type": "object"},
+    "content": {"type": "object"},
+    "media": {"type": "array", "items": {"type": "object"}, "default": []},
+    "conversation_id": {"type": ["string", "null"]},
+    "engagement": {"type": "object", "default": {}},
+    "permissions": {
+      "type": "object",
+      "required": ["observe", "analyze", "draft", "execute"],
+      "properties": {
+        "observe": {"type": "boolean"},
+        "analyze": {"type": "boolean"},
+        "draft": {"type": "boolean"},
+        "execute": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["connector_type", "source_reference"],
+      "properties": {
+        "connector_type": {"enum": ["native_api", "secure_browser", "social_ingest"]},
+        "source_reference": {"type": "string"},
+        "retrieved_at": {"type": "string", "format": "date-time"},
+        "checksum": {"type": ["string", "null"]}
+      }
+    },
+    "risk_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "policy_state": {"enum": ["unreviewed", "allowed", "restricted", "blocked", "escalated"], "default": "unreviewed"},
+    "council_decision": {"enum": ["ignore", "analyze", "draft", "escalate", "approve", "execute", "pending"], "default": "pending"},
+    "timestamp": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
