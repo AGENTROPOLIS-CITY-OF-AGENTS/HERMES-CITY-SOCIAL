@@ -1,0 +1,21 @@
+version: 1
+permission_levels:
+  observe:
+    allows: [read_feed, read_notifications, read_comments, read_messages_metadata]
+    external_side_effects: false
+  analyze:
+    requires: [observe]
+    allows: [classify, summarize, sentiment, opportunity_detection, risk_scoring]
+    external_side_effects: false
+  draft:
+    requires: [observe, analyze]
+    allows: [draft_post, draft_reply, draft_message, transform_for_platform]
+    external_side_effects: false
+  execute:
+    requires: [observe, analyze, draft, explicit_account_grant, approval_gate]
+    allows: [publish, reply, send_message, moderate]
+    external_side_effects: true
+defaults:
+  new_connector: observe_only
+  raw_credentials_in_model_context: deny
+  irreversible_action_without_approval: deny
