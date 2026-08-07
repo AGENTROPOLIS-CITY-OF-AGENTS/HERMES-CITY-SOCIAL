@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/council-decision.schema.json",
+  "title": "AGENTROPOLIS Council Decision",
+  "description": "Concise, auditable council outcome for a social event. schema_version 1.0.0. Stores decision summaries only — never hidden model reasoning traces.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "decision_id",
+    "event_id",
+    "recommendation",
+    "rationale_summary",
+    "policy_references",
+    "confidence",
+    "dissent",
+    "required_approvals",
+    "expires_at",
+    "model_receipts",
+    "correlation_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "decision_id": {"type": "string", "minLength": 1},
+    "event_id": {"type": "string", "minLength": 1},
+    "recommendation": {"enum": ["ignore", "analyze", "draft", "escalate", "approve", "execute", "reject", "quarantine"]},
+    "rationale_summary": {"type": "string", "minLength": 1},
+    "policy_references": {"type": "array", "items": {"type": "string"}, "default": []},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "dissent": {"type": "array", "items": {"type": "string"}, "default": []},
+    "required_approvals": {"type": "array", "items": {"type": "string"}, "default": []},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "model_receipts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["model_id", "receipt_id", "version"],
+        "properties": {"model_id": {"type": "string"}, "receipt_id": {"type": "string"}, "version": {"type": "string"}},
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "correlation_id": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "connector_id": "conn_x_observe_001",
+  "platform": "x",
+  "version": "1.0.0",
+  "connector_mode": "native_api",
+  "supported_event_types": ["tweet", "mention", "reply"],
+  "supported_permissions": ["observe"],
+  "required_capabilities": ["x_api_read_v2"],
+  "required_secret_handles": ["x_bearer_token"],
+  "rate_limits": {"reads_per_minute": 300, "writes_per_hour": 0, "budget_profile": "x_standard"},
+  "data_retention": {"default_days": 30, "sensitive_days": 7, "delete_on_request": true},
+  "provenance_method": "api_reference",
+  "health_check": {"strategy": "api_status_endpoint", "timeout_seconds": 10},
+  "revocation_method": "revoke_token",
+  "risk_class": "low",
+  "approval_state": "approved_observe",
+  "checksum": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "maintainer": "HERMES-SOCIAL",
+  "license": "Apache-2.0",
+  "status": "blocked_live"
+}

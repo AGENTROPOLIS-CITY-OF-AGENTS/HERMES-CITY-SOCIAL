@@ -29,35 +29,27 @@ The AGENTROPOLIS Social Transit Grid is the governed infrastructure beneath it.
 
 ## Supported Channel Classes
 
-### Web2 Social
+### Pilot (enumerated in the versioned schemas)
 
-- X
-- LinkedIn
-- Instagram
-- Facebook
-- Threads
-- TikTok
-- YouTube
-- Reddit
+- X — Observe
+- Discord — Observe, Analyze
+- Farcaster — Observe
 
-### Community and Messaging
+### Planned channel classes (roadmap; NOT yet in schemas)
 
-- Discord
-- Telegram
-- WhatsApp
-- Slack
+New platforms must be added through adapters without changing the core interface or normalized event model, and each addition must follow `schemas/MIGRATION.md` (schema update, policy mirror, fixtures, tests, review).
 
-### Web3 Social and Community
+### Web2 Social (planned)
 
-- Farcaster
-- Bluesky
-- Lens
-- Mirror
-- Paragraph
-- Guild
-- Snapshot
+- X (pilot), LinkedIn, Instagram, Facebook, Threads, TikTok, YouTube, Reddit
 
-Future platforms must be added through adapters without changing the core interface or normalized event model.
+### Community and Messaging (planned)
+
+- Discord (pilot), Telegram, WhatsApp, Slack
+
+### Web3 Social and Community (planned)
+
+- Farcaster (pilot), Bluesky, Lens, Mirror, Paragraph, Guild, Snapshot
 
 ---
 
@@ -79,22 +71,19 @@ Webhooks, RSS, APIs, approved crawlers, email notifications, and bounded browser
 
 ## Shared Social Event Schema
 
-Every external signal must normalize into a shared event containing at minimum:
+The versioned production contract is `schemas/social-event.schema.json` (schema_version 1.0.0). Every external signal must normalize into a Social Event containing at minimum:
 
-- `platform`
-- `account_id`
-- `event_type`
-- `author`
-- `content`
-- `media`
-- `conversation_id`
-- `engagement`
-- `permissions`
-- `provenance`
-- `risk_score`
-- `timestamp`
+- `schema_version`, `event_id`, `correlation_id`, `content_hash`
+- `platform`, `connector_id`, `connector_mode`, `account_id`
+- `event_type`, `author`, `content`, `media`, `conversation_id`, `engagement`
+- `permissions` (observe/analyze/draft/execute booleans)
+- `provenance` (connector_type, source_reference, retrieved_at, checksum)
+- `risk_score`, `risk_level`
+- `received_at`, `source_timestamp`
+- `validation_state`, `quarantine_state`, `policy_state`, `council_state`
+- `memory_eligibility`, `retention_class`
 
-External social content is untrusted sensor data. It must pass the Ingest Membrane, ASBE checks, provenance checks, and policy controls before entering memory, RAG, task creation, or execution.
+External social content is untrusted sensor data. It must pass the Ingest Membrane, ASBE checks, provenance checks, and policy controls before entering memory, RAG, task creation, or execution. Credential-like fields are forbidden at every depth (enforced by `tests/test_schemas.py`).
 
 ---
 
@@ -167,6 +156,32 @@ The original HERMES social-video capability remains an internal module for:
 - Skills and MCP-driven production workflows
 
 It now operates as one capability inside the broader Social Transit Grid.
+
+---
+
+## Contracts & Verification
+
+Versioned schemas live in `schemas/`:
+
+- `social-event.schema.json` — normalized Social Event (v1.0.0)
+- `social-account.schema.json` — bound account under a connector (opaque credential handles)
+- `action-receipt.schema.json` — permanent provenance-backed action receipt
+- `connector-manifest.schema.json` — connector adapter contract
+- `approval-request.schema.json` — governed approval queue object
+- `council-decision.schema.json` — concise council outcome (no hidden reasoning traces)
+- `community-intake.schema.json` — public-safe Dock intake object
+
+Fixtures: `schemas/fixtures/valid/` (positive) and `schemas/fixtures/invalid/` (negative, must be rejected). Migration rules: `schemas/MIGRATION.md`.
+
+Policies live in `policies/`: `permissions.yaml`, `approval-gates.yaml` (default deny_execute), `risk-levels.yaml`, `council.yaml` (council outcomes + never-auto-execute categories).
+
+Run the contract verification (no `make` required on this host):
+
+    python scripts/verify-contracts.py
+
+or directly:
+
+    uv run --with jsonschema --with pyyaml python -m unittest discover -s tests -v
 
 ---
 

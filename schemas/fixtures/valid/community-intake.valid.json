@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "intake_id": "intake_0001",
+  "applicant_name": "Ada Builder",
+  "contact_method": "ada@example.com",
+  "community_or_project": "Open Agent Guild",
+  "website_or_reference": "https://github.com/example/open-agent-guild",
+  "requested_district": "creator",
+  "requested_capabilities": ["public_docs", "district_recruitment"],
+  "social_channels": ["x"],
+  "intended_use": "Build a public recruitment surface for the Creator district.",
+  "data_permissions_requested": ["observe"],
+  "execution_permissions_requested": [],
+  "risk_declarations": {"moderation_contact": "ada@example.com", "pii_handled": false},
+  "terms_acknowledged": true,
+  "privacy_acknowledged": true,
+  "status": "submitted",
+  "received_at": "2026-08-06T18:02:00Z",
+  "correlation_id": "corr_intake_0001",
+  "retention_class": "sensitive"
+}

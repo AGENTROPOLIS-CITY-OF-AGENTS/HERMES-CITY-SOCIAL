@@ -1,0 +1,31 @@
+version: 1
+outcomes:
+  ignore: [unreviewed, low_risk_no_action]
+  analyze: [needs_classification, moderate_uncertainty]
+  draft: [permission_allowed, policy_allowed]
+  escalate: [high_risk, ambiguity, policy_restricted]
+  approve: [human_approval_complete]
+  execute: [NEVER_AUTO_REQUIRES_HUMAN_APPROVAL_AND_DUAL_CONTROL]
+  reject: [policy_denied, validation_failed]
+  quarantine: [malformed, unknown_schema, credential_exposure]
+routing_defaults:
+  risk_low: analyze
+  risk_moderate: draft
+  risk_high: escalate
+  risk_critical: quarantine
+never_auto_execute:
+  - moderation
+  - deletion
+  - financial_promotion
+  - political_persuasion
+  - legal_claims
+  - account_changes
+  - private_messaging
+  - credential_changes
+pilot:
+  execute_enabled: false
+  publishing_enabled: false
+  draft_requires_human_approval: true
+  dm_disabled: true
+  account_changes_disabled: true
+  moderation_disabled: true

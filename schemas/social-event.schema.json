@@ -2,15 +2,52 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentropolis.local/schemas/social-event.schema.json",
   "title": "AGENTROPOLIS Social Event",
+  "description": "Normalized, validated social event after passing the Ingest Membrane. schema_version 1.0.0. See schemas/MIGRATION.md for versioning rules.",
   "type": "object",
-  "required": ["event_id", "platform", "account_id", "event_type", "author", "content", "permissions", "provenance", "risk_score", "timestamp"],
+  "required": [
+    "schema_version",
+    "event_id",
+    "platform",
+    "connector_id",
+    "connector_mode",
+    "account_id",
+    "event_type",
+    "author",
+    "content",
+    "media",
+    "conversation_id",
+    "engagement",
+    "permissions",
+    "provenance",
+    "risk_score",
+    "risk_level",
+    "received_at",
+    "source_timestamp",
+    "validation_state",
+    "quarantine_state",
+    "policy_state",
+    "council_state",
+    "memory_eligibility",
+    "retention_class",
+    "content_hash",
+    "correlation_id"
+  ],
   "properties": {
+    "schema_version": {"const": "1.0.0"},
     "event_id": {"type": "string", "minLength": 1},
-    "platform": {"type": "string", "minLength": 1},
+    "platform": {"enum": ["x", "discord", "farcaster"]},
+    "connector_id": {"type": "string", "minLength": 1},
+    "connector_mode": {"enum": ["native_api", "secure_browser", "social_ingest"]},
     "account_id": {"type": "string", "minLength": 1},
-    "event_type": {"type": "string", "minLength": 1},
-    "author": {"type": "object"},
-    "content": {"type": "object"},
+    "event_type": {
+      "enum": ["tweet", "mention", "reply", "message", "channel_message", "post", "cast", "reply_cast", "quote_cast"]
+    },
+    "author": {"type": "object", "required": ["id", "display_name"], "properties": {"id": {"type": "string"}, "display_name": {"type": ["string", "null"]}}, "additionalProperties": true},
+    "content": {
+      "type": "object",
+      "description": "Sanitized structured representation. Raw provider payloads never enter model prompts. Credential-like keys (token, secret, password, authorization, cookie, api_key) are FORBIDDEN at any depth — enforced by the validation suite.",
+      "additionalProperties": true
+    },
     "media": {"type": "array", "items": {"type": "object"}, "default": []},
     "conversation_id": {"type": ["string", "null"]},
     "engagement": {"type": "object", "default": {}},
@@ -27,18 +64,27 @@
     },
     "provenance": {
       "type": "object",
-      "required": ["connector_type", "source_reference"],
+      "required": ["connector_type", "source_reference", "retrieved_at"],
       "properties": {
         "connector_type": {"enum": ["native_api", "secure_browser", "social_ingest"]},
         "source_reference": {"type": "string"},
         "retrieved_at": {"type": "string", "format": "date-time"},
-        "checksum": {"type": ["string", "null"]}
-      }
+        "checksum": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+      },
+      "additionalProperties": false
     },
     "risk_score": {"type": "number", "minimum": 0, "maximum": 100},
+    "risk_level": {"enum": ["low", "moderate", "high", "critical"]},
+    "received_at": {"type": "string", "format": "date-time"},
+    "source_timestamp": {"type": "string", "format": "date-time"},
+    "validation_state": {"enum": ["unvalidated", "valid", "invalid", "held_for_migration"]},
+    "quarantine_state": {"enum": ["received", "quarantined", "released", "rejected", "dead_letter"]},
     "policy_state": {"enum": ["unreviewed", "allowed", "restricted", "blocked", "escalated"], "default": "unreviewed"},
-    "council_decision": {"enum": ["ignore", "analyze", "draft", "escalate", "approve", "execute", "pending"], "default": "pending"},
-    "timestamp": {"type": "string", "format": "date-time"}
+    "council_state": {"enum": ["pending", "ignore", "analyze", "draft", "escalate", "approve", "execute", "reject", "quarantine"], "default": "pending"},
+    "memory_eligibility": {"enum": ["eligible", "ineligible", "review_required"]},
+    "retention_class": {"enum": ["standard", "sensitive", "transient", "delete_on_resolution"]},
+    "content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "correlation_id": {"type": "string", "minLength": 1}
   },
   "additionalProperties": false
 }

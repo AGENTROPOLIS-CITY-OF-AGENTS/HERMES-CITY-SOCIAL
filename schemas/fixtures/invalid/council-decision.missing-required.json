@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "dec_bad_0001",
+  "event_id": "evt_x_0001",
+  "recommendation": "analyze",
+  "rationale_summary": "missing confidence",
+  "policy_references": [],
+  "dissent": [],
+  "required_approvals": [],
+  "expires_at": "2026-08-07T18:01:00Z",
+  "model_receipts": [],
+  "correlation_id": "corr_bad_0001"
+}

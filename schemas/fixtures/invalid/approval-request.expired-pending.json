@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "approval_id": "aprv_bad_0003",
+  "event_id": "evt_x_0001",
+  "draft_id": "draft_0001",
+  "requested_action": "approve_draft",
+  "requested_by": "hermes-social-drafter",
+  "required_approvers": ["human_operator"],
+  "approval_policy": "approval-gates.yaml::draft",
+  "status": "pending",
+  "content_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "created_at": "2026-08-06T18:01:00Z",
+  "expires_at": "2026-08-06T17:00:00Z",
+  "correlation_id": "corr_bad_0003"
+}

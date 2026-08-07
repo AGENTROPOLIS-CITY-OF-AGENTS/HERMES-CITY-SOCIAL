@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_id": "rcpt_bad_0003",
+  "action_type": "observe",
+  "platform": "x",
+  "account_id": "acct_hermes_public",
+  "actor": "hermes-social-observer",
+  "capability_handle": "handle:x-observe-001",
+  "approval_ids": ["aprv_0001"],
+  "policy_decision_id": "dec_0001",
+  "input_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "output_hash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "provider_reference": null,
+  "started_at": "2026-08-06T18:00:02Z",
+  "completed_at": "2026-08-06T18:00:03Z",
+  "status": "completed",
+  "provenance": {"connector_id": "conn_x_observe_001", "connector_mode": "native_api", "received_at": "2026-08-06T18:00:01Z"},
+  "software_versions": {"hermes_version": "0.20.0"},
+  "connector_version": "1.0.0",
+  "correlation_id": "corr_bad_0003"
+}

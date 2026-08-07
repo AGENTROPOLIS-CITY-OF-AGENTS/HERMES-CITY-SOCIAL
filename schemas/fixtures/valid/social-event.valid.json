@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "event_id": "evt_x_0001",
+  "platform": "x",
+  "connector_id": "conn_x_observe_001",
+  "connector_mode": "native_api",
+  "account_id": "acct_hermes_public",
+  "event_type": "mention",
+  "author": {"id": "user_123", "display_name": "Citizen Builder"},
+  "content": {"text": "Interesting public architecture for agent coordination.", "language": "en"},
+  "media": [],
+  "conversation_id": "conv_991",
+  "engagement": {"likes": 4, "reposts": 1},
+  "permissions": {"observe": true, "analyze": false, "draft": false, "execute": false},
+  "provenance": {
+    "connector_type": "native_api",
+    "source_reference": "https://api.x.com/2/tweets/2001",
+    "retrieved_at": "2026-08-06T18:00:00Z",
+    "checksum": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "risk_score": 8,
+  "risk_level": "low",
+  "received_at": "2026-08-06T18:00:01Z",
+  "source_timestamp": "2026-08-06T17:59:59Z",
+  "validation_state": "valid",
+  "quarantine_state": "released",
+  "policy_state": "allowed",
+  "council_state": "analyze",
+  "memory_eligibility": "eligible",
+  "retention_class": "standard",
+  "content_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "correlation_id": "corr_evt_0001"
+}
