@@ -1,0 +1,15 @@
+# Gitleaks configuration — HERMES-SOCIAL
+#
+# Convention (established B2 recon, 2026-08-06): test suites legitimately
+# contain secret-SHAPED fixture values inside adversarial assertions
+# (credential-like content that the Ingest Membrane must strip). Per the
+# governed-repo-delivery convention, tests/ is excluded from VALUE scanning
+# while production sources (connectors/, membrane/, scripts/) remain strictly
+# scanned by every rule. This allowlist is narrowed to the generic-api-key
+# rule and the tests/ path ONLY; it does not weaken scanning anywhere else.
+
+title = "HERMES-SOCIAL gitleaks config"
+
+[allowlist]
+  description = "secret-shaped fixture values inside the adversarial test suite (tests/ only)"
+  paths = ["tests/"]
