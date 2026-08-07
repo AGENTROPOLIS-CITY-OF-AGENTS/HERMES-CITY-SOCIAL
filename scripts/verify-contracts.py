@@ -15,7 +15,32 @@ import sys
 import py_compile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-MODULES = ["tests/test_schemas.py", "tests/test_policies.py", "scripts/verify-contracts.py"]
+MODULES = [
+    "tests/test_schemas.py",
+    "tests/test_policies.py",
+    "tests/test_connectors.py",
+    "tests/test_membrane.py",
+    "scripts/verify-contracts.py",
+    "connectors/base.py",
+    "connectors/checkpoint.py",
+    "connectors/errors.py",
+    "connectors/manifest.py",
+    "connectors/registry.py",
+    "connectors/providers/__init__.py",
+    "connectors/providers/x_provider.py",
+    "connectors/providers/discord_provider.py",
+    "connectors/providers/farcaster_provider.py",
+    "connectors/fixtures/fixture_providers.py",
+    "membrane/__init__.py",
+    "membrane/bus.py",
+    "membrane/dedup.py",
+    "membrane/metrics.py",
+    "membrane/pipeline.py",
+    "membrane/policy.py",
+    "membrane/quarantine.py",
+    "membrane/risk.py",
+    "membrane/sanitize.py",
+]
 
 
 def run(cmd, cwd=ROOT):

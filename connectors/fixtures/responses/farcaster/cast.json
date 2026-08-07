@@ -1,0 +1,10 @@
+{
+  "data": {
+    "hash": "cast-301",
+    "text": "Agents should keep public signals public.",
+    "author": {"fid": 789, "username": "builder"},
+    "timestamp": "2026-08-06T18:00:05Z",
+    "parent_hash": null,
+    "reactions": {"likes": 2}
+  }
+}
