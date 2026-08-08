@@ -1,0 +1,11 @@
+{
+  "data": {
+    "id": "tweet-2001",
+    "text": "Interesting public architecture for agent coordination.",
+    "author_id": "user_123",
+    "lang": "en",
+    "created_at": "2026-08-06T17:59:59Z",
+    "conversation_id": "conv-991",
+    "public_metrics": {"like_count": 4, "retweet_count": 1, "reply_count": 0, "quote_count": 0}
+  }
+}

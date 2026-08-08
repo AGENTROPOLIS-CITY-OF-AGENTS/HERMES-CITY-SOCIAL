@@ -1,0 +1,10 @@
+{
+  "data": {
+    "id": "msg-501",
+    "content": "Welcome to the Agentropolis public channel.",
+    "author": {"id": "user_456", "username": "citizen-builder"},
+    "channel_id": "ch-77",
+    "timestamp": "2026-08-06T18:00:00Z",
+    "attachments": []
+  }
+}
