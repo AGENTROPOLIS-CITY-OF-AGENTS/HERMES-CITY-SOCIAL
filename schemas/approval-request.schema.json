@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/approval-request.schema.json",
+  "title": "AGENTROPOLIS Approval Request",
+  "description": "A governed approval request. schema_version 1.0.0. Approving a draft marks it approved for controlled review; it NEVER publishes externally.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "approval_id",
+    "event_id",
+    "draft_id",
+    "requested_action",
+    "requested_by",
+    "required_approvers",
+    "approval_policy",
+    "status",
+    "created_at",
+    "expires_at",
+    "content_hash",
+    "correlation_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "approval_id": {"type": "string", "minLength": 1},
+    "event_id": {"type": ["string", "null"]},
+    "draft_id": {"type": "string", "minLength": 1},
+    "requested_action": {"enum": ["approve_draft", "publish", "reply", "send_message", "moderate", "account_change", "credential_change", "revoke"]},
+    "requested_by": {"type": "string", "minLength": 1},
+    "required_approvers": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "approval_policy": {"type": "string", "minLength": 1},
+    "status": {"enum": ["pending", "approved", "rejected", "expired", "revised", "cancelled"]},
+    "approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["approver", "at"],
+        "properties": {"approver": {"type": "string"}, "at": {"type": "string", "format": "date-time"}, "note": {"type": ["string", "null"]}},
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "rejections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["approver", "at", "reason"],
+        "properties": {"approver": {"type": "string"}, "at": {"type": "string", "format": "date-time"}, "reason": {"type": "string"}},
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "revision_requests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["requested_by", "at", "instructions"],
+        "properties": {"requested_by": {"type": "string"}, "at": {"type": "string", "format": "date-time"}, "instructions": {"type": "string"}},
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "correlation_id": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

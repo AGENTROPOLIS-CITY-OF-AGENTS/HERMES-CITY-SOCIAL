@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/social-account.schema.json",
+  "title": "AGENTROPOLIS Social Account",
+  "description": "A bound social account under a connector. schema_version 1.0.0. credential_handle is an opaque capability handle, never a raw secret.",
+  "type": "object",
+  "required": ["schema_version", "platform", "connector_id", "account_id", "connector_type", "permissions", "status", "credential_handle", "retention_class"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "platform": {"enum": ["x", "discord", "farcaster"]},
+    "connector_id": {"type": "string", "minLength": 1},
+    "account_id": {"type": "string", "minLength": 1},
+    "display_name": {"type": ["string", "null"]},
+    "connector_type": {"enum": ["native_api", "secure_browser", "social_ingest"]},
+    "permissions": {
+      "type": "object",
+      "required": ["observe", "analyze", "draft", "execute"],
+      "properties": {
+        "observe": {"type": "boolean"},
+        "analyze": {"type": "boolean"},
+        "draft": {"type": "boolean"},
+        "execute": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "status": {"enum": ["quarantined", "testing", "approved_read_only", "approved_draft", "approved_execute", "suspended"]},
+    "rate_limit_profile": {"type": ["string", "null"]},
+    "budget_profile": {"type": ["string", "null"]},
+    "credential_handle": {"type": "string", "pattern": "^handle:[a-z0-9-]+$", "description": "Opaque capability handle only. Never a raw secret."},
+    "retention_class": {"enum": ["standard", "sensitive", "transient", "delete_on_resolution"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}

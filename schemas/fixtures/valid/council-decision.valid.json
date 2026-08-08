@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "dec_0001",
+  "event_id": "evt_x_0001",
+  "recommendation": "analyze",
+  "rationale_summary": "Low-risk public signal; route to analysis lane.",
+  "policy_references": ["permissions.yaml::analyze", "risk-levels.yaml::low"],
+  "confidence": 0.93,
+  "dissent": [],
+  "required_approvals": [],
+  "expires_at": "2026-08-07T18:01:00Z",
+  "model_receipts": [{"model_id": "hermes-council", "receipt_id": "mrcpt_0001", "version": "0.20.0"}],
+  "correlation_id": "corr_evt_0001"
+}

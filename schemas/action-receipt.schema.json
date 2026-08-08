@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/action-receipt.schema.json",
+  "title": "AGENTROPOLIS Social Action Receipt",
+  "description": "Permanent, provenance-backed record of an approved external action. schema_version 1.0.0. A receipt may claim an external action occurred ONLY when the provider confirms it; otherwise status is simulated or mocked.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "action_type",
+    "platform",
+    "account_id",
+    "actor",
+    "capability_handle",
+    "approval_ids",
+    "policy_decision_id",
+    "input_hash",
+    "output_hash",
+    "provider_reference",
+    "started_at",
+    "completed_at",
+    "status",
+    "provenance",
+    "software_versions",
+    "connector_version",
+    "correlation_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "receipt_id": {"type": "string", "minLength": 1},
+    "action_type": {"enum": ["observe", "analyze", "draft", "execute", "publish", "reply", "send_message", "moderate", "revoke", "reject", "approve"]},
+    "platform": {"enum": ["x", "discord", "farcaster"]},
+    "account_id": {"type": "string", "minLength": 1},
+    "event_id": {"type": ["string", "null"]},
+    "actor": {"type": "string", "minLength": 1},
+    "capability_handle": {"type": "string", "pattern": "^handle:[a-z0-9-]+$"},
+    "approval_ids": {"type": "array", "items": {"type": "string"}, "default": []},
+    "policy_decision_id": {"type": "string", "minLength": 1},
+    "input_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "output_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "provider_reference": {"type": ["string", "null"], "description": "Provider-confirmed reference. Null unless the provider confirmed the external action."},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["started", "completed", "failed", "cancelled", "blocked", "simulated", "mocked"]},
+    "error_class": {"type": ["string", "null"]},
+    "provenance": {
+      "type": "object",
+      "required": ["connector_id", "connector_mode", "received_at"],
+      "properties": {
+        "connector_id": {"type": "string"},
+        "connector_mode": {"enum": ["native_api", "secure_browser", "social_ingest"]},
+        "received_at": {"type": "string", "format": "date-time"}
+      },
+      "additionalProperties": false
+    },
+    "software_versions": {
+      "type": "object",
+      "properties": {"hermes_version": {"type": "string"}},
+      "additionalProperties": true
+    },
+    "connector_version": {"type": "string", "minLength": 1},
+    "correlation_id": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

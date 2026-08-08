@@ -1,0 +1,20 @@
+version: 1
+gates:
+  read_only:
+    required_for: []
+    receipt: required
+  draft:
+    required_for: [draft_post, draft_reply, draft_message]
+    approvers: [assigned_operator]
+    receipt: required
+  execute_standard:
+    required_for: [publish, reply, send_message]
+    approvers: [human_operator]
+    conditions: [account_execute_permission, policy_allowed, rate_limit_available]
+    receipt: required
+  execute_high_risk:
+    required_for: [moderate, financial, legal, safety, crisis, irreversible]
+    approvers: [human_operator, second_controller]
+    conditions: [policy_allowed, provenance_verified, risk_below_block_threshold]
+    receipt: required
+default: deny_execute

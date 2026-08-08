@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "dec_bad_0002",
+  "event_id": "evt_x_0001",
+  "recommendation": "auto_publish",
+  "rationale_summary": "not an allowed council outcome",
+  "policy_references": [],
+  "confidence": 0.5,
+  "dissent": [],
+  "required_approvals": [],
+  "expires_at": "2026-08-07T18:01:00Z",
+  "model_receipts": [],
+  "correlation_id": "corr_bad_0002"
+}

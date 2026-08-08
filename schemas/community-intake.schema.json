@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/community-intake.schema.json",
+  "title": "AGENTROPOLIS Community Intake",
+  "description": "Public-safe community intake object. schema_version 1.0.0. Submission NEVER grants access directly; it enters the Dock review lifecycle. Personal contact data must not be placed in any public repository.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "intake_id",
+    "applicant_name",
+    "contact_method",
+    "community_or_project",
+    "website_or_reference",
+    "requested_district",
+    "requested_capabilities",
+    "social_channels",
+    "intended_use",
+    "data_permissions_requested",
+    "execution_permissions_requested",
+    "risk_declarations",
+    "terms_acknowledged",
+    "privacy_acknowledged",
+    "status",
+    "received_at",
+    "correlation_id",
+    "retention_class"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "intake_id": {"type": "string", "minLength": 1},
+    "applicant_name": {"type": "string", "minLength": 1, "maxLength": 200},
+    "contact_method": {"type": "string", "minLength": 3, "maxLength": 300},
+    "community_or_project": {"type": "string", "minLength": 1, "maxLength": 300},
+    "website_or_reference": {"type": "string", "minLength": 0, "maxLength": 500},
+    "requested_district": {"type": "string", "minLength": 1},
+    "requested_capabilities": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "social_channels": {"type": "array", "items": {"type": "string"}, "default": []},
+    "intended_use": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "data_permissions_requested": {
+      "type": "array",
+      "items": {"enum": ["observe", "analyze"]},
+      "default": []
+    },
+    "execution_permissions_requested": {
+      "type": "array",
+      "items": {"enum": ["draft", "execute"]},
+      "default": [],
+      "description": "Pilot: draft is human-approval-queue only; execute is denied. Requests are recorded, never granted by intake."
+    },
+    "risk_declarations": {"type": "object", "additionalProperties": true},
+    "terms_acknowledged": {"const": true},
+    "privacy_acknowledged": {"const": true},
+    "status": {"enum": ["submitted", "quarantined", "validated", "identity_review", "district_review", "permission_review", "approved", "rejected", "revision_requested"]},
+    "received_at": {"type": "string", "format": "date-time"},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "retention_class": {"enum": ["standard", "sensitive", "transient", "delete_on_resolution"]}
+  },
+  "additionalProperties": false
+}

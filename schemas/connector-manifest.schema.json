@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/connector-manifest.schema.json",
+  "title": "AGENTROPOLIS Connector Manifest",
+  "description": "Declared contract for a social connector adapter. schema_version 1.0.0. required_secret_handles contains opaque capability-handle NAMES, never values.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "connector_id",
+    "platform",
+    "version",
+    "connector_mode",
+    "supported_event_types",
+    "supported_permissions",
+    "required_capabilities",
+    "required_secret_handles",
+    "rate_limits",
+    "data_retention",
+    "provenance_method",
+    "health_check",
+    "revocation_method",
+    "risk_class",
+    "approval_state",
+    "checksum",
+    "maintainer",
+    "license",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "connector_id": {"type": "string", "minLength": 1},
+    "platform": {"enum": ["x", "discord", "farcaster"]},
+    "version": {"type": "string", "minLength": 1},
+    "connector_mode": {"enum": ["native_api", "secure_browser", "social_ingest"]},
+    "supported_event_types": {
+      "type": "array",
+      "items": {"enum": ["tweet", "mention", "reply", "message", "channel_message", "post", "cast", "reply_cast", "quote_cast"]},
+      "minItems": 1
+    },
+    "supported_permissions": {
+      "type": "array",
+      "items": {"enum": ["observe", "analyze", "draft", "execute"]},
+      "minItems": 1
+    },
+    "required_capabilities": {"type": "array", "items": {"type": "string"}, "default": []},
+    "required_secret_handles": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+      "description": "Opaque secret-handle NAMES (e.g. x_bearer_token). Values live only in the sealed secret provider."
+    },
+    "rate_limits": {
+      "type": "object",
+      "required": ["reads_per_minute", "writes_per_hour"],
+      "properties": {
+        "reads_per_minute": {"type": "integer", "minimum": 0},
+        "writes_per_hour": {"type": "integer", "minimum": 0},
+        "budget_profile": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "data_retention": {
+      "type": "object",
+      "required": ["default_days", "sensitive_days", "delete_on_request"],
+      "properties": {
+        "default_days": {"type": "integer", "minimum": 0},
+        "sensitive_days": {"type": "integer", "minimum": 0},
+        "delete_on_request": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "provenance_method": {"enum": ["api_reference", "content_hash", "cursor_chain", "sealed_attestation"]},
+    "health_check": {
+      "type": "object",
+      "required": ["strategy", "timeout_seconds"],
+      "properties": {
+        "strategy": {"type": "string"},
+        "timeout_seconds": {"type": "number", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "revocation_method": {"enum": ["revoke_token", "revoke_session", "disable_account", "rotate_credentials"]},
+    "risk_class": {"enum": ["low", "moderate", "high", "critical"]},
+    "approval_state": {"enum": ["quarantined", "testing", "approved_observe", "approved_analyze", "approved_draft", "approved_execute", "revoked"]},
+    "checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "maintainer": {"type": "string", "minLength": 1},
+    "license": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "implemented", "contract_tested", "mock_tested", "blocked_live", "live_tested", "production_approved", "revoked"]}
+  },
+  "additionalProperties": false
+}

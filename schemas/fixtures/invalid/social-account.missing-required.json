@@ -1,0 +1,10 @@
+{
+  "platform": "x",
+  "connector_id": "conn_x_observe_001",
+  "account_id": "acct_hermes_public",
+  "connector_type": "native_api",
+  "permissions": {"observe": true, "analyze": false, "draft": false, "execute": false},
+  "status": "approved_read_only",
+  "credential_handle": "handle:x-observe-001",
+  "retention_class": "standard"
+}
