@@ -1,4 +1,7 @@
-# HERMES-SOCIAL
+# HERMES-CITY-SOCIAL
+
+> **Canonical repository.** Migrated from `wiredchaos/HERMES-SOCIAL` (legacy, reference-only). Source heads: B2 `45563a2` (PR #4, production/social-contracts), B3 `60371c2` (PR #5, production/social-ingest). See `docs/MIGRATION_PROVENANCE.md`.
+
 
 Private implementation repository for the **AGENTROPOLIS Social Layer** and the **HERMES Social Surface**.
 
