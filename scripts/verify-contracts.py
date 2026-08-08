@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""HERMES-SOCIAL contract verification gate (B2).
+"""HERMES-CITY-SOCIAL contract verification gate (B2 + B3 + B4).
 
 Ordered checks:
-  1. PYTHON_SYNTAX  — py_compile every test/script module.
-  2. UNIT_TESTS     — schema + policy suites via ephemeral uv deps.
+  1. PYTHON_SYNTAX  — py_compile every test/script/surface module.
+  2. UNIT_TESTS     — schema + policy + connector + membrane + surface suites
+                      via ephemeral uv deps (jsonschema, pyyaml, fastapi, httpx).
   3. SECRET_SCAN    — gitleaks full history (skipped with warning if unavailable).
   4. GIT_DIFF_CHECK — git diff --check.
 
@@ -20,7 +21,26 @@ MODULES = [
     "tests/test_policies.py",
     "tests/test_connectors.py",
     "tests/test_membrane.py",
+    "tests/test_surface_repository.py",
+    "tests/test_surface_service.py",
+    "tests/test_surface_api.py",
+    "tests/test_surface_canary.py",
     "scripts/verify-contracts.py",
+    "scripts/canary-b4.py",
+    "surface/__init__.py",
+    "surface/models/__init__.py",
+    "surface/models/records.py",
+    "surface/repositories/__init__.py",
+    "surface/repositories/base.py",
+    "surface/repositories/sqlite.py",
+    "surface/views/__init__.py",
+    "surface/views/serializers.py",
+    "surface/services/__init__.py",
+    "surface/services/surface.py",
+    "surface/api/__init__.py",
+    "surface/api/schemas.py",
+    "surface/api/app.py",
+    "surface/ingest.py",
     "connectors/base.py",
     "connectors/checkpoint.py",
     "connectors/errors.py",
@@ -61,6 +81,7 @@ def main():
 
     print("== 2. UNIT_TESTS ==")
     r = run(["uv", "run", "--with", "jsonschema", "--with", "pyyaml",
+             "--with", "fastapi", "--with", "httpx",
              "python", "-m", "unittest", "discover", "-s", "tests", "-v"])
     print(r.stdout[-5000:] if r.stdout else r.stderr[-2000:])
     if r.returncode != 0:

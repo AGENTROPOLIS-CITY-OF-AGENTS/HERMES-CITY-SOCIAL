@@ -184,7 +184,28 @@ Run the contract verification (no `make` required on this host):
 
 or directly:
 
-    uv run --with jsonschema --with pyyaml python -m unittest discover -s tests -v
+    uv run --with jsonschema --with pyyaml --with fastapi --with httpx python -m unittest discover -s tests -v
+
+B4 canary (B3 pipeline -> B4 surface, fixture-only, no live credentials):
+
+    uv run --with jsonschema --with pyyaml --with fastapi --with httpx python scripts/canary-b4.py
+
+---
+
+## B4 Social Surface
+
+The governed operator/read-model surface (`surface/`) sits above the B3 Ingest
+Membrane: FastAPI `/api/v1` read endpoints for the unified inbox, feeds,
+notifications, accounts, connector state, drafts, approval queue, council
+decisions, action receipts, and system/ingest health. SQLite is the dev
+backend behind a repository abstraction (`surface/repositories/`) so
+PostgreSQL can replace it in staging/production without rewriting surface
+logic. B4 consumes ONLY governed B2/B3 outputs — quarantined payloads never
+reach the surface. Draft creation is the only write path and never publishes.
+See `docs/SOCIAL_SURFACE.md`.
+
+Live status: **LIVE=BLOCKED** — no live social credentials are authorized;
+connectors are exercised through fixture providers only.
 
 ---
 
