@@ -7,7 +7,7 @@
   "required": ["schema_version", "platform", "connector_id", "account_id", "connector_type", "permissions", "status", "credential_handle", "retention_class"],
   "properties": {
     "schema_version": {"const": "1.0.0"},
-    "platform": {"enum": ["x", "discord", "farcaster"]},
+    "platform": {"enum": ["x", "discord", "farcaster", "moltbook"]},
     "connector_id": {"type": "string", "minLength": 1},
     "account_id": {"type": "string", "minLength": 1},
     "display_name": {"type": ["string", "null"]},
