@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.local/schemas/docking-spatial-event.schema.json",
+  "title": "AGENTROPOLIS Docking Spatial Event",
+  "description": "Public-safe projection consumed by HERMES-CITY. Contains only the minimum state needed to animate an agent presence; never raw social payloads or credentials.",
+  "type": "object",
+  "required": ["schema_version", "event_id", "agent_id", "district", "space", "activity", "origin", "policy_state", "truth_state", "timestamp", "source_event_id"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "event_id": {"type": "string", "minLength": 1},
+    "agent_id": {"type": "string", "minLength": 1},
+    "district": {"const": "docking"},
+    "space": {"enum": ["arrival_gate", "identity_customs", "quarantine_bay", "passport_hall", "social_commons", "berth_exchange", "dispatch_concourse", "observation_gallery", "audit_terminal", "return_gate"]},
+    "activity": {"enum": ["idle", "moving", "working", "meeting", "reviewing", "blocked", "resetting"]},
+    "origin": {"type": "string", "minLength": 1, "maxLength": 32},
+    "policy_state": {"enum": ["allowed", "review", "blocked"]},
+    "truth_state": {"enum": ["LIVE", "SIMULATED", "STATIC", "UNKNOWN"]},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "source_event_id": {"type": "string", "minLength": 1},
+    "receipt_id": {"type": ["string", "null"]},
+    "public_label": {"type": ["string", "null"], "maxLength": 120}
+  },
+  "additionalProperties": false
+}
