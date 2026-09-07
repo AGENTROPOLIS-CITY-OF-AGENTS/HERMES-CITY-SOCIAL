@@ -238,3 +238,7 @@ or directly:
 ## License
 
 Apache License 2.0. See `LICENSE`.
+
+## Persistent broadcast operations
+
+HERMES is an operator and external-platform surface for Utility Grid broadcast leases, not a separate broadcast authority. See [`docs/PERSISTENT-BROADCAST-OPERATOR.md`](docs/PERSISTENT-BROADCAST-OPERATOR.md).
