@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.dev/schemas/agent-economic-identity.schema.json",
+  "title": "AgentEconomicIdentity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "economic_id", "agent_id", "wallets", "governance", "state"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "economic_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$"},
+    "agent_id": {"type": "string", "minLength": 2},
+    "wallets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["chain", "capability_handle", "custody_model"],
+        "properties": {
+          "chain": {"type": "string"},
+          "address": {"type": ["string", "null"]},
+          "capability_handle": {"type": "string", "minLength": 3},
+          "custody_model": {"type": "string", "enum": ["human-controlled", "multisig", "policy-wallet", "sealed-agent-capability"]},
+          "signing_policy_ref": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "creator_markets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["provider", "market_ref", "relationship"],
+        "properties": {
+          "provider": {"type": "string"},
+          "market_ref": {"type": "string"},
+          "relationship": {"type": "string", "enum": ["creator", "claimed-creator", "observed-market"]},
+          "claim_receipt_ref": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "agent_token": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["symbol", "genesis_state"],
+      "properties": {
+        "symbol": {"type": "string", "minLength": 1, "maxLength": 32},
+        "name": {"type": ["string", "null"]},
+        "chain": {"type": ["string", "null"]},
+        "contract_ref": {"type": ["string", "null"]},
+        "genesis_id": {"type": ["string", "null"]},
+        "genesis_state": {"type": "string", "enum": ["not-candidate", "candidate", "review", "approved", "active", "paused", "retired"]},
+        "utility_refs": {"type": "array", "items": {"type": "string"}},
+        "launch_receipt_ref": {"type": ["string", "null"]}
+      }
+    },
+    "nft_collections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["collection_ref", "rights_ref"],
+        "properties": {
+          "collection_ref": {"type": "string"},
+          "rights_ref": {"type": "string"},
+          "contract_ref": {"type": ["string", "null"]},
+          "chain": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "revenue_streams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "destination_policy_ref"],
+        "properties": {
+          "kind": {"type": "string", "enum": ["creator-fees", "royalties", "commerce", "licensing", "services", "exhibition-sales", "game", "other"]},
+          "destination_policy_ref": {"type": "string"},
+          "source_ref": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["promotion_authority_separate", "trading_authority_separate", "treasury_authority_separate", "execution_envelope_required"],
+      "properties": {
+        "promotion_authority_separate": {"const": true},
+        "trading_authority_separate": {"const": true},
+        "treasury_authority_separate": {"const": true},
+        "execution_envelope_required": {"const": true},
+        "promotion_mandate_ref": {"type": ["string", "null"]},
+        "trading_mandate_ref": {"type": ["string", "null"]},
+        "treasury_mandate_ref": {"type": ["string", "null"]},
+        "fiscal_policy_ref": {"type": ["string", "null"]},
+        "aegis_policy_ref": {"type": ["string", "null"]}
+      }
+    },
+    "state": {"type": "string", "enum": ["inactive", "active", "paused", "restricted", "retired"]}
+  }
+}

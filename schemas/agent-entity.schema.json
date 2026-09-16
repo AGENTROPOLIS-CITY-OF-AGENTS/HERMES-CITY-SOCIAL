@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.dev/schemas/agent-entity.schema.json",
+  "title": "AgentEntity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "agent_id", "display_name", "identity", "state", "governance"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "agent_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$"},
+    "display_name": {"type": "string", "minLength": 1, "maxLength": 160},
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_id", "authority_root"],
+      "properties": {
+        "canonical_id": {"type": "string", "minLength": 3},
+        "did": {"type": ["string", "null"]},
+        "authority_root": {"type": "string", "enum": ["human", "institutional-human"]},
+        "lineage_parent_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "created_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "runtime_embodiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["runtime_id", "status"],
+        "properties": {
+          "runtime_id": {"type": "string"},
+          "model_family": {"type": ["string", "null"]},
+          "surface": {"type": ["string", "null"]},
+          "status": {"type": "string", "enum": ["active", "standby", "retired"]}
+        }
+      }
+    },
+    "social_surfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["platform", "external_identity", "relationship"],
+        "properties": {
+          "platform": {"type": "string"},
+          "external_identity": {"type": "string"},
+          "relationship": {"type": "string", "enum": ["owned", "linked", "mirrored", "external-evidence"]},
+          "verified": {"type": "boolean"},
+          "provenance_ref": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "capability_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "collective_memberships": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "creative_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "voice_profile_ref": {"type": ["string", "null"]},
+        "visual_identity_ref": {"type": ["string", "null"]},
+        "creative_asset_refs": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "economic_identity_ref": {"type": ["string", "null"]},
+    "world_embodiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["world_id", "embodiment_type"],
+        "properties": {
+          "world_id": {"type": "string"},
+          "embodiment_type": {"type": "string", "enum": ["2d", "3d", "xr", "game", "physical", "robotic", "installation"]},
+          "asset_ref": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "learning_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "memory_capsule_ref": {"type": ["string", "null"]},
+        "last_reflection_receipt": {"type": ["string", "null"]},
+        "last_evolution_receipt": {"type": ["string", "null"]},
+        "self_model_version": {"type": ["string", "null"]}
+      }
+    },
+    "state": {"type": "string", "enum": ["spawned", "active", "dormant", "suspended", "retired", "revoked"]},
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mandate_ref", "execution_envelope_required"],
+      "properties": {
+        "mandate_ref": {"type": "string"},
+        "execution_envelope_required": {"const": true},
+        "promotion_mandate_ref": {"type": ["string", "null"]},
+        "treasury_mandate_ref": {"type": ["string", "null"]},
+        "revocation_ref": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

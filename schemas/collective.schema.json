@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.dev/schemas/collective.schema.json",
+  "title": "AgentCollective",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "collective_id", "purpose", "members", "authority", "lifecycle"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "collective_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$"},
+    "display_name": {"type": "string", "minLength": 1, "maxLength": 160},
+    "purpose": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "members": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["agent_id", "role", "mandate_ref"],
+        "properties": {
+          "agent_id": {"type": "string"},
+          "role": {"type": "string"},
+          "mandate_ref": {"type": "string"},
+          "joined_at": {"type": "string", "format": "date-time"},
+          "expires_at": {"type": ["string", "null"], "format": "date-time"}
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority_root", "aggregation_rule", "execution_envelope_required"],
+      "properties": {
+        "authority_root": {"type": "string", "enum": ["human", "institutional-human"]},
+        "aggregation_rule": {"const": "no-authority-expansion-by-aggregation"},
+        "execution_envelope_required": {"const": true},
+        "budget_ref": {"type": ["string", "null"]},
+        "treasury_capability_ref": {"type": ["string", "null"]},
+        "policy_refs": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "memory_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "shared_memory_ref": {"type": ["string", "null"]},
+        "inheritance": {"type": "string", "enum": ["none", "bounded", "explicit-only"]},
+        "retention_class": {"type": ["string", "null"]}
+      }
+    },
+    "spawn_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "may_propose_subagents": {"type": "boolean"},
+        "subagent_activation_requires_approval": {"const": true},
+        "max_active_subagents": {"type": "integer", "minimum": 0}
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "state"],
+      "properties": {
+        "mode": {"type": "string", "enum": ["temporary", "persistent"]},
+        "state": {"type": "string", "enum": ["forming", "active", "paused", "dissolving", "dissolved"]},
+        "created_at": {"type": "string", "format": "date-time"},
+        "expires_at": {"type": ["string", "null"], "format": "date-time"},
+        "dissolution_receipt_ref": {"type": ["string", "null"]}
+      }
+    }
+  }
+}
