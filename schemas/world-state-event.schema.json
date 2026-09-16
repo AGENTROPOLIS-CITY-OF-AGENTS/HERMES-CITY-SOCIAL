@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.dev/schemas/world-state-event.schema.json",
+  "title": "WorldStateEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "event_type",
+    "entity_id",
+    "planes",
+    "occurred_at",
+    "provenance",
+    "correlation_id"
+  ],
+  "properties": {
+    "event_id": { "type": "string", "minLength": 1 },
+    "event_type": { "type": "string", "minLength": 1 },
+    "entity_id": { "type": "string", "minLength": 1 },
+    "planes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["social", "creative", "economic", "spatial", "physical"]
+      }
+    },
+    "payload": { "type": "object" },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "parent_event_id": { "type": ["string", "null"] },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "receipt_ref"],
+      "properties": {
+        "source": { "type": "string", "minLength": 1 },
+        "receipt_ref": { "type": "string", "minLength": 1 },
+        "external_evidence": { "type": "boolean", "default": false }
+      }
+    },
+    "projections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["plane", "surface_ref"],
+        "properties": {
+          "plane": { "enum": ["social", "creative", "economic", "spatial", "physical"] },
+          "surface_ref": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["planned", "active", "archived", "failed"] },
+          "receipt_ref": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}
