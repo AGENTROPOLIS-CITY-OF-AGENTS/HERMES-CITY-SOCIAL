@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.dev/schemas/evolution-receipt.schema.json",
+  "title": "EvolutionReceipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receipt_id",
+    "entity_id",
+    "generation",
+    "parent_state_ref",
+    "current_state_ref",
+    "mutation",
+    "reason",
+    "evidence_refs",
+    "learning",
+    "reversibility",
+    "created_at"
+  ],
+  "properties": {
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "entity_id": { "type": "string", "minLength": 1 },
+    "generation": { "type": "integer", "minimum": 0 },
+    "parent_state_ref": { "type": "string", "minLength": 1 },
+    "current_state_ref": { "type": "string", "minLength": 1 },
+    "mutation": {
+      "type": "object",
+      "required": ["summary", "scope"],
+      "properties": {
+        "summary": { "type": "string", "minLength": 1 },
+        "scope": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "reason": { "type": "string", "minLength": 1 },
+    "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "learning": { "type": "string", "minLength": 1 },
+    "coherence_change": { "type": ["number", "null"] },
+    "fitness_change": { "type": ["number", "null"] },
+    "reversibility": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["reversible", "partially-reversible", "irreversible"] },
+        "rollback_ref": { "type": ["string", "null"] }
+      }
+    },
+    "descendant_refs": { "type": "array", "items": { "type": "string" } },
+    "authority_check": {
+      "type": "object",
+      "required": ["capability_changed", "authority_changed"],
+      "properties": {
+        "capability_changed": { "type": "boolean" },
+        "authority_changed": { "const": false }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}
