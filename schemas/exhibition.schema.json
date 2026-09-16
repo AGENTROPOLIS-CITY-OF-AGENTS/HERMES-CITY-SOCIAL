@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentropolis.dev/schemas/exhibition.schema.json",
+  "title": "AgentExhibition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "exhibition_id", "title", "curation", "works", "venue", "provenance", "state"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "exhibition_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{1,127}$"},
+    "title": {"type": "string", "minLength": 1, "maxLength": 240},
+    "description": {"type": ["string", "null"], "maxLength": 8000},
+    "curation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["curator_refs", "selection_receipt_ref"],
+      "properties": {
+        "curator_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "selection_receipt_ref": {"type": "string"},
+        "theme": {"type": ["string", "null"]},
+        "human_review_required": {"type": "boolean"}
+      }
+    },
+    "works": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["creative_asset_ref", "display_mode"],
+        "properties": {
+          "creative_asset_ref": {"type": "string"},
+          "display_mode": {"type": "string", "enum": ["screen", "projection", "print", "sculpture", "installation", "performance", "xr", "mixed-media", "other"]},
+          "physical_instance_ref": {"type": ["string", "null"]},
+          "spatial_twin_ref": {"type": ["string", "null"]},
+          "sale_or_edition_ref": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "venue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["venue_type"],
+      "properties": {
+        "venue_type": {"type": "string", "enum": ["gallery", "museum", "fair", "pop-up", "public-space", "virtual", "xr", "hybrid", "other"]},
+        "venue_name": {"type": ["string", "null"]},
+        "city": {"type": ["string", "null"]},
+        "country": {"type": ["string", "null"]},
+        "event_ref": {"type": ["string", "null"]},
+        "starts_at": {"type": ["string", "null"], "format": "date-time"},
+        "ends_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "installation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "display_spec_ref": {"type": ["string", "null"]},
+        "shipping_ref": {"type": ["string", "null"]},
+        "fabrication_ref": {"type": ["string", "null"]},
+        "insurance_ref": {"type": ["string", "null"]},
+        "onsite_receipt_ref": {"type": ["string", "null"]}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exhibition_receipt_ref"],
+      "properties": {
+        "exhibition_receipt_ref": {"type": "string"},
+        "archive_ref": {"type": ["string", "null"]},
+        "catalog_ref": {"type": ["string", "null"]},
+        "media_refs": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "state": {"type": "string", "enum": ["concept", "curation", "production", "installed", "open", "closed", "archived", "cancelled"]}
+  }
+}
